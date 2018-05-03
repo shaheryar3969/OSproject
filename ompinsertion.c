@@ -13,7 +13,7 @@ void printarr(int array[],int n){
 
 int main(){
 	int i,j,temp;
-	int n=1000;
+	int n=10000;
 	int array[n];
 	srand(time(NULL));
 	clock_t start,end;
@@ -22,7 +22,7 @@ int main(){
 	start=clock();
 	#pragma omp parallel num_threads(10) private (i,j,temp)
 	{
-		#pragma omp for schedule(dynamic,10)
+		#pragma omp for schedule(dynamic,100)
 		for(i=1;i<n;i++){
 			for(j=0;j<i;j++){
 				if(array[j]>array[i]){
@@ -35,5 +35,5 @@ int main(){
 	} 
 	end=clock();
 	printf("Time Taken:%lf ",(double)end-start);
-	printarr(array,n);
+	//printarr(array,n);
 }

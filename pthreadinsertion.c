@@ -3,10 +3,12 @@
 #include<pthread.h>
 #include<time.h>
 
-int n=1000;
-int array[1000];
+int n=10000;
+int array[10000];
 int no_of_thread=10;
 pthread_t pid[10];
+int size=1000; 
+
 void func1 (void * var);
 void printarr(int array[]){
 	int i;
@@ -23,34 +25,30 @@ int main(){
 	for(i=0;i<n;i++)
 		array[i]=rand() % 1000;  //randomly filling array
 	start=clock();
-	int num=n/no_of_thread;
-	j=0;
-	for(i=1;i<n;i++){
-		if(num==0)	{
-			num=n/no_of_thread;
-			j++;
-		}
-		pthread_create(&pid[j],0,func1,i);
-	
-		num--;
+	for(i=0;i<10;i++){
+		j=i*size;
+		pthread_create(&pid[i],0,func1,(void*)j);
 	}
 	int k;
 	for(k=0;k<no_of_thread;k++){
 		pthread_join(pid[k],NULL);
 	}
 	end=clock();
-	printf("Time Taken:%d %lf ",j,(double)end-start);
+	printf("Time Taken: %lf ",(double)end-start);
 	//printarr(array);
 }
 
 void func1 (void * var){
-	int i=(int)var;
-	int j,temp;
-	for(j=0;j<i;j++){
+	int k=(int)var;
+	int i,j,temp;
+	
+	for(i=k+1;i<k+size;i++){
+			for(j=0;j<i;j++){
 				if(array[j]>array[i]){
 					temp=array[i];
 					array[i]=array[j];
 					array[j]=temp;
 				}
 			}
+		}
 }

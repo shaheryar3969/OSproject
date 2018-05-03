@@ -25,4 +25,9 @@ and then compare which API give the best running time oneach algorithim.
 #Algorithims used
 1- Insertion sort
 2- Merge sort
-3- 
+3- Radix sort
+
+#Team members
+1- Sanif Ali Momin
+2- Syed Shaheryar Ali
+3- Qaiser Hassan
