@@ -28,12 +28,12 @@ int main()
 	int exp,i=0;
 	for(i=0;i<n;i++)
 		arr[i]=rand() % 1000 + 1;  //randomly filling array
-    int m = getMax();
+    	int m = getMax();
  	start=clock();
- 	#pragma omp parallel num_threads(10) private (i,exp,output,count,n,temp)
+ 	#pragma omp parallel num_threads(10) private (i,n)
 	{
-	#pragma omp for parallel(dynamic,100)
-    for (exp = 1; m/exp > 0; exp *= 10){
+	#pragma omp for schedule(dynamic,100)
+    for (exp = 1; m/exp > 0; exp*=10){
     	int output[n]; // output array
     	int i, count[10] = {0};
  		#pragma omp for nowait
@@ -50,8 +50,8 @@ int main()
     	}
  		#pragma omp for nowait
     	for (i = 0; i < n; i++)
-        	arr[i] = output[i];
-	}
+        	arr[i] = output[i];	
+}
 }
     end=clock();
     printf("Time Taken: %lf ",(double)end-start);

@@ -4,15 +4,15 @@
 #include<time.h>
 #include<stdlib.h>
 # define size 1000 // size for data set to be sorted
-sem_t sem1;
+
 void merge(int *p,int a,int b){
 int i,j;
 #pragma omp parallel num_threads(4)
 {
 #pragma omp for schedule(dynamic)
 for(i=a;i<=b;i++){
-if(i<size)
-sem_wait(&sem1);
+if
+(i<size)
 #pragma omp parallel num_threads(4)
 #pragma omp for schedule(dynamic)
 for(j=i;j<b+2;j++){
@@ -23,7 +23,6 @@ p[i]=p[j];
 p[j]=temp;
 }
 }
-sem_post(&sem1);
 }
 wait(NULL);
 }
@@ -42,7 +41,7 @@ int i;
 
 int main(){
 
-sem_init(&sem1,0,1);
+clock_t start,end;
 int array[size];
 srand(time(NULL));
 int i;
@@ -55,8 +54,10 @@ for(i=0;i<size;i++)
 {
 //printf(" %d",array[i]);
 }
+start=clock();
 mergesort(array,0,size);
-
+end=clock();
+printf("Time taken: %d",(double)end-start);
 printf("\n\nSorted array:\n");
 for(i=0;i<size-2;i++)
 {
@@ -65,4 +66,3 @@ printf(" %d\n",array[i]);
 }
 
 }
-

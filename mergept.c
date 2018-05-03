@@ -46,39 +46,54 @@ merge(p,s,e);
 }
 
 int main(){
-int array[20];
+clock_t start,end;
+int array[10000];
 srand(time(NULL));
 int i;
-for(i=0;i<20;i++)
+for(i=0;i<2500;i++)
 {
-array[i]=rand()%1000;
+array[i]=rand()%250;
 }
-for(i=0;i<20;i++)
+for(i=2500;i<5000;i++)
 {
-printf(" %d",array[i]);
+array[i]=rand()%250+250;
 }
+for(i=5000;i<7500;i++)
+{
+array[i]=rand()%250+500;
+}
+for(i=7500;i<10000;i++)
+{
+array[i]=rand()%250+750;
+}
+
+
+
+
 struct sss val[4];
-int s=0,e=5;
+int s=0,e=2500;
 for(i=0;i<4;i++){
 val[i].p=array;
 val[i].s=s;
 val[i].e=e;
-s=s+5;
-e=e+5;
+s=s+2500;
+e=e+2500;
 
 }
 pthread_t pid[4];
+start=clock();
 for(i=0;i<4;i++){
 pthread_create(&pid[i],NULL,mergesort,(void *)&val[i]);
 }
 for(i=0;i<4;i++){
 pthread_join(pid[i],NULL);
 }
-merge(array,0,20);
-printf("\n\nSorted array:\n");
-for(i=0;i<20;i++)
+end=clock();
+printf("Time Taken:%d",(double)end-start);
+/*printf("\n\nSorted array:\n");
+for(i=0;i<10000;i++)
 {
 printf(" %d",array[i]);
 }
-printf("\n\n");
+printf("\n\n");*/
 }
