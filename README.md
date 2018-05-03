@@ -26,7 +26,7 @@ and then compare which API give the best running time oneach algorithim.
 1- Insertion sort
 2- Merge sort
 3- Radix sort
-
+4- Bubble sort
 #Team members
 1- Sanif Ali Momin
 2- Syed Shaheryar Ali

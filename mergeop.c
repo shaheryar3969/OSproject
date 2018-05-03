@@ -3,7 +3,7 @@
 #include<omp.h>
 #include<time.h>
 #include<stdlib.h>
-# define size 1000 // size for data set to be sorted
+# define size 10000 // size for data set to be sorted
 
 void merge(int *p,int a,int b){
 int i,j;
@@ -49,20 +49,16 @@ for(i=0;i<size;i++)
 {
 array[i]=rand()%1000;
 }
-printf("Unsorted array:\n");
-for(i=0;i<size;i++)
-{
-//printf(" %d",array[i]);
-}
+
 start=clock();
 mergesort(array,0,size);
 end=clock();
 printf("Time taken: %d",(double)end-start);
-printf("\n\nSorted array:\n");
+/*printf("\n\nSorted array:\n");
 for(i=0;i<size-2;i++)
 {
 //if(array[i]<array[i+1]&& array[i]<array[i+2])
-printf(" %d\n",array[i]);
+printf(" %lf\n",array[i]);
 }
-
+*/
 }

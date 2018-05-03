@@ -89,7 +89,7 @@ for(i=0;i<4;i++){
 pthread_join(pid[i],NULL);
 }
 end=clock();
-printf("Time Taken:%d",(double)end-start);
+printf("Time Taken:%lf",(double)end-start);
 /*printf("\n\nSorted array:\n");
 for(i=0;i<10000;i++)
 {

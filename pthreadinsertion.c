@@ -2,11 +2,12 @@
 #include<stdlib.h>
 #include<pthread.h>
 #include<time.h>
-#define n 10000
-#define no_of_thread 4
-int array[n];
-pthread_t pid[no_of_thread];
-int size=1000; 
+
+int n=10000;
+int array[10000];
+int no_of_thread=4;
+pthread_t pid[4];
+int size=2500; 
 
 void func1 (void * var);
 void printarr(int array[]){
@@ -21,19 +22,10 @@ int main(){
 	int i,j,temp;
 	srand(time(NULL));
 	clock_t start,end;
-	for(i=0;i<2500;i++)
-		array[i]=rand()%250;
-
-	for(i=2500;i<5000;i++)
-		array[i]=rand()%250+250;
-
-	for(i=5000;i<7500;i++)
-		array[i]=rand()%250+500;
-
-	for(i=7500;i<10000;i++)
-		array[i]=rand()%250+750;
+	for(i=0;i<n;i++)
+		array[i]=rand() % 1000;  //randomly filling array
 	start=clock();
-	for(i=0;i<10;i++){
+	for(i=0;i<no_of_thread;i++){
 		j=i*size;
 		pthread_create(&pid[i],0,func1,(void*)j);
 	}
@@ -43,7 +35,7 @@ int main(){
 	}
 	end=clock();
 	printf("Time Taken: %lf ",(double)end-start);
-	printarr(array);
+	//printarr(array);
 }
 
 void func1 (void * var){
@@ -60,3 +52,4 @@ void func1 (void * var){
 			}
 		}
 }
+

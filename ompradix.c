@@ -32,23 +32,21 @@ int main()
  	start=clock();
  	#pragma omp parallel num_threads(10) private (i,n)
 	{
+	int number=m;
 	#pragma omp for schedule(dynamic,100)
-    for (exp = 1; m/exp > 0; exp*=10){
+    for (exp=1;number>0; exp*=10){
+	number=m/exp;
     	int output[n]; // output array
     	int i, count[10] = {0};
- 		#pragma omp for nowait
     	for (i = 0; i < n; i++)
         	count[ (arr[i]/exp)%10 ]++;
- 		#pragma omp for nowait
  		for (i = 1; i < 10; i++)
-        	count[i] += count[i - 1];
-		#pragma omp for nowait	 
+        	count[i] += count[i - 1]; 
    	    for (i = n - 1; i >= 0; i--)
     	{
         	output[count[ (arr[i]/exp)%10 ] - 1] = arr[i];
 	        count[ (arr[i]/exp)%10 ]--;
     	}
- 		#pragma omp for nowait
     	for (i = 0; i < n; i++)
         	arr[i] = output[i];	
 }
