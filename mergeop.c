@@ -1,23 +1,33 @@
+#include<semaphore.h>
 #include<stdio.h>
 #include<omp.h>
 #include<time.h>
 #include<stdlib.h>
-
+# define size 1000 // size for data set to be sorted
+sem_t sem1;
 void merge(int *p,int a,int b){
 int i,j;
-#pragma omp parallel num_threads(8)
-#pragma omp for schedule(static) nowait
-for(i=a;i<b;i++){
-#pragma omp parallel num_threads(10)
-#pragma omp for schedule(static) nowait
-for(j=i;j<b;j++){
-if(p[i]>p[j]){
+#pragma omp parallel num_threads(4)
+{
+#pragma omp for schedule(dynamic)
+for(i=a;i<=b;i++){
+if(i<size)
+sem_wait(&sem1);
+#pragma omp parallel num_threads(4)
+#pragma omp for schedule(dynamic)
+for(j=i;j<b+2;j++){
+if(j<size)
+if(p[i]>=p[j]){
 int temp=p[i];
 p[i]=p[j];
 p[j]=temp;
 }
 }
+sem_post(&sem1);
 }
+wait(NULL);
+}
+wait(NULL);
 }
 
 void mergesort(int *p,int s, int e){
@@ -31,24 +41,27 @@ int i;
 }
 
 int main(){
-int array[15];
+
+sem_init(&sem1,0,1);
+int array[size];
 srand(time(NULL));
 int i;
-for(i=0;i<15;i++)
+for(i=0;i<size;i++)
 {
 array[i]=rand()%1000;
 }
 printf("Unsorted array:\n");
-for(i=0;i<15;i++)
+for(i=0;i<size;i++)
 {
-printf(" %d",array[i]);
+//printf(" %d",array[i]);
 }
-mergesort(array,0,15);
+mergesort(array,0,size);
 
 printf("\n\nSorted array:\n");
-for(i=0;i<15;i++)
+for(i=0;i<size-2;i++)
 {
-printf(" %d",array[i]);
+//if(array[i]<array[i+1]&& array[i]<array[i+2])
+printf(" %d\n",array[i]);
 }
 
 }
